@@ -3,10 +3,16 @@ const fetchButton = document.getElementById("fetchButton");
 const urlTextBox = document.getElementById("urlTextBox");
 const dataResultArea = document.getElementById("mainResults");
 
+
+
+
 // Make a GET api request
 async function getRequest(someURL) {
     // clear out the data printout area of the html page
     dataResultArea.innerHTML = "";
+
+    
+    
     
     // Fetch a response from the REST API
     const response = await fetch(someURL);
@@ -26,11 +32,18 @@ async function getRequest(someURL) {
     return objResult;
 }
 
+function success(pos) {
+    const crd = pos.coords;
+    url = (`https://api.open-meteo.com/v1/forecast?latitude=${crd.latitude}&longitude=${crd.longitude}&current_weather=true`)
+    return url
+  }
+
+  url = navigator.geolocation.getCurrentPosition(success)
 
 // Make the GET request when the fetch button is clicked
 fetchButton.addEventListener('click', async (event) => {
     // fetch whatever URL has been typed into textbox
-    let url = urlTextBox.value;
+    
     let data = await getRequest(url);
     // Do something else with 'data' if you want
 });
